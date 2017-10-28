@@ -3,6 +3,7 @@
     "rules": {
       "no-tabs": 0,
       "indent": ["error", "tab"],
-      "import/prefer-default-export": 0
+      "import/prefer-default-export": 0,
+      "max-len": 0
     }
 }

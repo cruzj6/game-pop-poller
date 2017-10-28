@@ -6,14 +6,21 @@
   "author": "Joey Cruz",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "build": "webpack"
+  },
   "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-env": "1.6.1",
     "eslint": "4.10.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "mocha": "4.0.1"
+    "mocha": "4.0.1",
+    "webpack": "3.8.1"
   },
   "dependencies": {
-		"axios": "0.17.0",
+    "axios": "0.17.0",
     "dotenv": "4.0.0",
     "ramda": "0.25.0"
   }
