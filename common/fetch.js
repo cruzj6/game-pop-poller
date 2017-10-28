@@ -1,3 +1,3 @@
 import axios from 'axios';
 
-export const get = (url, params) => axios.get(url, { params });
+export const get = (url, params, headers) => axios.get(url, { params, headers });

@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "start": "yarn run build && node ./dist/bundle.js"
   },
   "devDependencies": {
     "babel-core": "6.26.0",
@@ -22,6 +23,7 @@
   "dependencies": {
     "axios": "0.17.0",
     "dotenv": "4.0.0",
-    "ramda": "0.25.0"
+    "ramda": "0.25.0",
+		"babel-polyfill": "6.26.0"
   }
 }
