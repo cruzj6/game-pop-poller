@@ -1,0 +1,20 @@
+{
+  "name": "game-pop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/cruzj6/game-pop.git",
+  "author": "Joey Cruz",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "eslint": "4.10.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "mocha": "4.0.1"
+  },
+  "dependencies": {
+		"axios": "0.17.0",
+    "dotenv": "4.0.0",
+    "ramda": "0.25.0"
+  }
+}

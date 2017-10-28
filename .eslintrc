@@ -1,0 +1,8 @@
+{
+    "extends": "airbnb-base",
+    "rules": {
+      "no-tabs": 0,
+      "indent": ["error", "tab"],
+      "import/prefer-default-export": 0
+    }
+}
