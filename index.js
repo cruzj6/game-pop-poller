@@ -1,12 +1,14 @@
 import 'babel-polyfill';
-import 'dotenv';
+import dotenv from 'dotenv';
+
 import twitch from './apiWrappers/twitch';
+import logger from './common/logger';
 
-const gameName = process.env.GAME_NAME || 'Diablo III';
+dotenv.config();
+const gameName = process.env.GAME_NAME || 'PlayerUnknown\'s Battlegrounds';
 
-const getGameCounts = name => (
-	twitch.getGameViewerNumbers({ gameName: name })
-		.then(console.log)
+const getGameCounts = async name => (
+	logger.info(await twitch.getGameViewerNumbers({ gameName: name }))
 );
 
 getGameCounts(gameName);

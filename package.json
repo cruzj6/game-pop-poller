@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "start": "yarn run build && node ./dist/bundle.js"
+    "start": "yarn run build && node ./dist/bundle.js",
+		"dev": "yarn run build && node --inspect-brk ./dist/bundle.js"
   },
   "devDependencies": {
     "babel-core": "6.26.0",
