@@ -1,19 +1,12 @@
 const dotenv = require('dotenv');
-
-const twitch = require('./apiWrappers/twitch');
-const messaging = require('./messaging');
-const { MESSAGE_TOPICS } = require('./constants');
+const logger = require('./common/logger');
+const twitchPolling = require('./apiWrappers/twitch/polling');
 
 dotenv.config();
-const gameName = process.env.GAME_NAME || 'PLAYERUNKNOWN\'S BATTLEGROUNDS';
 
-const getGameCounts = name => (
-	twitch.getGameViewerNumbers(name)
-);
-
-messaging.init()
-	.then(() => getGameCounts(gameName))
-	.then(count => messaging.sendMessages(MESSAGE_TOPICS.TWITCH, [
-		{ timestamp: Date.now(), viewers: count },
-		{ timestamp: Date.now(), viewers: count },
-	]));
+try {
+	// Init kafka messaging then begin polling
+	twitchPolling.beginPollTwitch();
+} catch (err) {
+	logger.error('Top level caught error: ', err);
+}

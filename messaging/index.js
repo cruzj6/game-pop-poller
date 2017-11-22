@@ -1,14 +1,15 @@
-const logger = require('../common/logger');
 const kafka = require('kafka-node');
-const { promisifyWithin } = require('../common/utils');
 const R = require('ramda');
+
+const logger = require('../common/logger');
+const { promisifyWithOwner } = require('../common/utils');
 
 // Setup kafka producer
 const client = new kafka.Client();
 const _producer = new kafka.Producer(client);
 
 // Work with promises on the producer object's handlers
-const producerEvent = promisifyWithin(_producer);
+const producerEvent = promisifyWithOwner(_producer);
 const producerOn = producerEvent('on');
 const producerSend = producerEvent('send');
 
@@ -40,7 +41,7 @@ const sendMessages = async (topic, messages) => {
 		await producerSend(payload);
 		logger.success('Wrote message to kafka');
 	} catch (err) {
-		logger.error(`problem sending payload to kafka: ${payload}`);
+		logger.error(`problem sending payload to kafka: ${JSON.stringify(payload)}`);
 		throw err;
 	}
 };

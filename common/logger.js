@@ -1,24 +1,24 @@
 /* eslint-disable no-console */
 
 const logger = {
-	info(message) {
-		console.log(message);
+	info(message, data) {
+		console.log(message, data);
 	},
 
-	warning(message) {
-		console.warn(message);
+	warning(message, data) {
+		console.warn(message, data);
 	},
 
-	error(message) {
-		console.error(`ERROR ${message}`);
+	error(message, data) {
+		console.error(`ERROR ${message}`, data);
 	},
 
-	success(message) {
-		this.info(`SUCCESS: ${message}`);
+	success(message, data) {
+		this.info(`SUCCESS: ${message}`, data);
 	},
 
-	failure(message) {
-		this.info(`FAILURE: ${message}`);
+	failure(message, data) {
+		this.info(`FAILURE: ${message}`, data);
 	},
 };
 

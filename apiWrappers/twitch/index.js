@@ -19,29 +19,33 @@ const getTwitchGameData = getTwitchData(TWITCH_DATA_TYPES.GAMES);
 
 const getTwitchStreamDataSummary = getTwitchDataV5(TWITCH_DATA_TYPES.STREAMS, R.__, true);
 
+const getGameStreamData = async (gameId, paginationId) => (
+	getTwitchStreamData({ game_id: gameId, first: 100, after: paginationId })
+);
+
+const getGameIdFromName = async (gameName) => {
+	// Get the ID for the game by name (take best match)
+	const gameData = await getTwitchGameData({ name: gameName });
+
+	const getId = R.path(['data', 'data', '0', 'id']);
+	return getId(gameData);
+};
+
+const getGameStreamDataByName = async (gameName, paginationId) => {
+	const gameId = this.getGameIdFromName(gameName);
+
+	return this.getGameStreamData(gameId, paginationId);
+};
+
+const getGameViewerNumbers = async gameName => (
+	R.path(['data', 'viewers'], await getTwitchStreamDataSummary({ game: gameName }))
+);
+
 const TwitchApiWrapper = {
-
-	async getGameStreamData(gameId, paginationId) {
-		return getTwitchStreamData({ game_id: gameId, first: 100, after: paginationId });
-	},
-
-	async getGameIdFromName(gameName) {
-		// Get the ID for the game by name (take best match)
-		const gameData = await getTwitchGameData({ name: gameName });
-
-		const getId = R.path(['data', 'data', '0', 'id']);
-		return getId(gameData);
-	},
-
-	async getGameStreamDataByName(gameName, paginationId) {
-		const gameId = this.getGameIdFromName(gameName);
-
-		return this.getGameStreamData(gameId, paginationId);
-	},
-
-	async getGameViewerNumbers(gameName) {
-		return R.path(['data', 'viewers'], await getTwitchStreamDataSummary({ game: gameName }));
-	},
+	getGameStreamData,
+	getGameIdFromName,
+	getGameStreamDataByName,
+	getGameViewerNumbers,
 };
 
 module.exports = TwitchApiWrapper;
