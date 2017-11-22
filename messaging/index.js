@@ -8,7 +8,7 @@ const { promisifyWithOwner } = require('../common/utils');
 const client = new kafka.Client();
 const _producer = new kafka.Producer(client);
 
-// Work with promises on the producer object's handlers
+// Work with promises on the producer object's owner
 const producerEvent = promisifyWithOwner(_producer);
 const producerOn = producerEvent('on');
 const producerSend = producerEvent('send');
