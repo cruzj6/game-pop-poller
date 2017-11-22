@@ -1,3 +1,5 @@
-import axios from 'axios';
+const axios = require('axios');
 
-export const get = (url, params, headers) => axios.get(url, { params, headers });
+module.exports = {
+	get: (url, params, headers) => axios.get(url, { params, headers }),
+};

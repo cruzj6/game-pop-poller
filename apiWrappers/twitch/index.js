@@ -1,8 +1,7 @@
-import * as R from 'ramda';
-
-import { get } from '../../common/fetch';
-import { TWITCH_API_URL, TWITCH_DATA_TYPES, TWITCH_API_URL_V5 } from '../../constants';
-import { buildUrl, compact } from '../../common/utils';
+const R = require('ramda');
+const { get } = require('../../common/fetch');
+const { TWITCH_API_URL, TWITCH_DATA_TYPES, TWITCH_API_URL_V5 } = require('../../constants');
+const { buildUrl, compact } = require('../../common/utils');
 
 // Setup utility function to get data from the twitch API
 // Work with new twitch API
@@ -35,9 +34,9 @@ const TwitchApiWrapper = {
 	},
 
 	async getGameStreamDataByName(gameName, paginationId) {
-		const gameId = TwitchApiWrapper.getGameIdFromName(gameName);
+		const gameId = this.getGameIdFromName(gameName);
 
-		return TwitchApiWrapper.getGameStreamData(gameId, paginationId);
+		return this.getGameStreamData(gameId, paginationId);
 	},
 
 	async getGameViewerNumbers(gameName) {
@@ -45,4 +44,4 @@ const TwitchApiWrapper = {
 	},
 };
 
-export default TwitchApiWrapper;
+module.exports = TwitchApiWrapper;

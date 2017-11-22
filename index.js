@@ -1,14 +1,19 @@
-import 'babel-polyfill';
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 
-import twitch from './apiWrappers/twitch';
-import logger from './common/logger';
+const twitch = require('./apiWrappers/twitch');
+const messaging = require('./messaging');
+const { MESSAGE_TOPICS } = require('./constants');
 
 dotenv.config();
 const gameName = process.env.GAME_NAME || 'PLAYERUNKNOWN\'S BATTLEGROUNDS';
 
-const getGameCounts = async name => (
-	logger.info(await twitch.getGameViewerNumbers(name))
+const getGameCounts = name => (
+	twitch.getGameViewerNumbers(name)
 );
 
-getGameCounts(gameName);
+messaging.init()
+	.then(() => getGameCounts(gameName))
+	.then(count => messaging.sendMessages(MESSAGE_TOPICS.TWITCH, [
+		{ timestamp: Date.now(), viewers: count },
+		{ timestamp: Date.now(), viewers: count },
+	]));

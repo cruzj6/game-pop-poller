@@ -1,10 +1,6 @@
 /* eslint-disable no-console */
 
 const logger = {
-	error(message) {
-		console.error(message);
-	},
-
 	info(message) {
 		console.log(message);
 	},
@@ -12,6 +8,18 @@ const logger = {
 	warning(message) {
 		console.warn(message);
 	},
+
+	error(message) {
+		console.error(`ERROR ${message}`);
+	},
+
+	success(message) {
+		this.info(`SUCCESS: ${message}`);
+	},
+
+	failure(message) {
+		this.info(`FAILURE: ${message}`);
+	},
 };
 
-export default logger;
+module.exports = logger;
