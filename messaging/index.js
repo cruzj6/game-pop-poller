@@ -26,7 +26,7 @@ const init = async () => {
 		const data = await producerOn('ready');
 		logger.success(`Kafka producer ready: ${data}`);
 	} catch (err) {
-		logger.error(`problem setting up kafka producer: ${err}`);
+		logger.error(`problem setting up Kafka producer: ${err}`);
 	}
 };
 
@@ -41,7 +41,7 @@ const sendMessages = async (topic, messages) => {
 		await producerSend(payload);
 		logger.success('Wrote message to kafka');
 	} catch (err) {
-		logger.error(`problem sending payload to kafka: ${JSON.stringify(payload)}`);
+		logger.error(`problem sending payload to Kafka: ${JSON.stringify(payload)}`);
 		throw err;
 	}
 };
