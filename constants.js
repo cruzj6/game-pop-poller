@@ -18,6 +18,7 @@ const MESSAGE_TOPICS = {
 // API polling
 const POLLING_INTERVAL = isProduction ? 60 * 60 * 1000 : 15000; // poll every hour or shorter in non-prod
 const TWITCH_LIMIT_MS = 500 + 100; // 2 per second plus a buffer
+const MAX_TOP_GAMES = 120;
 
 module.exports = {
 	MAX_BATCH_SIZE,
@@ -27,4 +28,5 @@ module.exports = {
 	TWITCH_API_URL,
 	TWITCH_DATA_TYPES,
 	TWITCH_LIMIT_MS,
+	MAX_TOP_GAMES,
 };
