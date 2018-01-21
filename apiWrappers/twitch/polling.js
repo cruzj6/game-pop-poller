@@ -38,7 +38,13 @@ const pollAllGames = async () => {
 // Begin polling Twitch API on an interval
 const beginPollTwitch = () => {
 	pollAllGames();
-	setInterval(pollAllGames, POLLING_INTERVAL);
+	setInterval(async () => {
+		try {
+			await pollAllGames();
+		} catch (err) {
+			logger.error('Error on polling all games: ', err);
+		}
+	}, POLLING_INTERVAL);
 };
 
 module.exports = {
