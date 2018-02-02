@@ -7,7 +7,11 @@ const currentBatch = [];
 
 const postMessages = async (batch) => {
 	logger.info('POSTING BATCH:', batch);
-	return messaging.sendMessages(MESSAGE_TOPICS.TWITCH, batch);
+	try {
+		await messaging.sendMessages(MESSAGE_TOPICS.TWITCH, batch);
+	} catch (e) {
+		logger.error('Failed to post messages: ', e);
+	}
 };
 
 const postAndClearBatch = () => {

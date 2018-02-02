@@ -29,7 +29,9 @@ const pollAllGames = async () => {
 	const topGameNames = topGames.map(R.path(['name']));
 
 	// build chain to poll for each game
-	await topGameNames.reduce((chain, name) => chain.then(() => pollTwitch(name)), Promise.resolve());
+	await topGameNames.reduce((chain, name) => chain
+		.then(() => pollTwitch(name))
+		.catch(() => logger.error('Could not poll for game: ', name)), Promise.resolve());
 
 	// Empty the remaning messages
 	twitchMessaging.allMessagesDone();
