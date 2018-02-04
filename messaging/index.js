@@ -4,8 +4,10 @@ const R = require('ramda');
 const logger = require('../common/logger');
 const { promisifyWithOwner } = require('../common/utils');
 
+const { KAFKA_HOST, KAFKA_PORT } = process.env;
+
 // Setup kafka producer
-const client = new kafka.Client();
+const client = new kafka.KafkaClient({ kafkaHost: `${KAFKA_HOST}:${KAFKA_PORT}` });
 const _producer = new kafka.Producer(client);
 
 // Work with promises on the producer object's owner
