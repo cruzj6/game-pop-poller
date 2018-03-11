@@ -1,8 +1,8 @@
 const dotenv = require('dotenv');
-const logger = require('./common/logger');
-const twitchPolling = require('./apiWrappers/twitch/polling');
 
 dotenv.config();
+const logger = require('./common/logger');
+const twitchPolling = require('./apiWrappers/twitch/polling');
 
 try {
 	// Init kafka messaging then begin polling
