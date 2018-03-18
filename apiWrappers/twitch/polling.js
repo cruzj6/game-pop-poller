@@ -25,13 +25,17 @@ const pollTwitch = name => new Promise((resolve, reject) => (
 
 // poll top MAX_TOP_GAMES twitch games
 const pollAllGames = async () => {
-	const topGames = await twitch.getTopGames(MAX_TOP_GAMES);
-	const topGameNames = topGames.map(R.path(['name']));
+	try {
+		const topGames = await twitch.getTopGames(MAX_TOP_GAMES);
+		const topGameNames = topGames.map(R.path(['name']));
 
-	// build chain to poll for each game
-	await topGameNames.reduce((chain, name) => chain
-		.then(() => pollTwitch(name))
-		.catch(() => logger.error('Could not poll for game: ', name)), Promise.resolve());
+		// build chain to poll for each game
+		await topGameNames.reduce((chain, name) => chain
+			.then(() => pollTwitch(name))
+			.catch(() => logger.error('Could not poll for game: ', name)), Promise.resolve());
+	} catch (err) {
+		logger.error('Could not poll top games: ', err);
+	}
 
 	// Empty the remaning messages
 	twitchMessaging.allMessagesDone();
