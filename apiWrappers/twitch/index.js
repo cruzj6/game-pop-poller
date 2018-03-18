@@ -30,7 +30,12 @@ const getTopGames = async (count = 20, { data = [], nextPage } = {}) => {
 	console.log("GET TOP 2") // eslint-disable-line
 
 	if (count > 100) {
-		const nextData = await getFromTopGames({ first: 100, ...nextPage && { after: nextPage } });
+		let nextData = [];
+		try {
+			nextData = await getFromTopGames({ first: 100, ...nextPage && { after: nextPage } });
+		} catch (err) {
+			console.log("GET TOP ERROR: ", err) // eslint-disable-line
+		}
 		console.log("GET TOP 3") // eslint-disable-line
 
 		return getTopGames(count - 100, {

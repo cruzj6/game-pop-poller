@@ -33,8 +33,6 @@ const pollAllGames = async () => {
 		const topGames = await twitch.getTopGames(MAX_TOP_GAMES);
 		const topGameNames = topGames.map(R.path(['name']));
 
-		console.log("GOT HERE2, HERE ARE ENV", process.env) // eslint-disable-line
-
 		// build chain to poll for each game
 		await topGameNames.reduce((chain, name) => chain
 			.then(() => pollTwitch(name))
