@@ -24,10 +24,14 @@ const getGameStreamData = async (gameId, paginationId) => (
 const getData = R.path(['data', 'data']);
 
 const getTopGames = async (count = 20, { data = [], nextPage } = {}) => {
+	console.log("GET TOP 1") // eslint-disable-line
+
 	const getFromTopGames = getTwitchData([TWITCH_DATA_TYPES.GAMES, 'top']);
+	console.log("GET TOP 2") // eslint-disable-line
 
 	if (count > 100) {
 		const nextData = await getFromTopGames({ first: 100, ...nextPage && { after: nextPage } });
+		console.log("GET TOP 3") // eslint-disable-line
 
 		return getTopGames(count - 100, {
 			data: [...data, ...getData(nextData)],
