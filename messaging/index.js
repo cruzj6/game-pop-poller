@@ -23,9 +23,10 @@ const init = async () => {
 		client = new kafka.KafkaClient({ kafkaHost: `${KAFKA_HOST}:${KAFKA_PORT}` });
 		_producer = new kafka.Producer(client);
 
+		const producerEvent = promisifyWithOwner(_producer);
+
 		logger.info('Waiting for kafka producer to be ready....');
 
-		const producerEvent = promisifyWithOwner(_producer);
 		const data = await new Promise(async (resolve, reject) => {
 			setTimeout(() => reject(new Error('Timeout waiting for kafka producer to be ready')), 30000);
 
