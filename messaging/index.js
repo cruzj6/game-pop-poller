@@ -10,6 +10,8 @@ const { KAFKA_HOST, KAFKA_PORT } = process.env;
 let client;
 let _producer;
 
+const KAFKA_WAIT_TIME = process.env.NODE_ENV === 'production' ? 20000 : 0;
+const KAFKA_CONNECT_TIMEOUT = 30000;
 const _getPayload = R.curry((topic, message) => ({ topic, messages: message }));
 
 const _getFormattedMessages = (messages) => {
@@ -20,32 +22,23 @@ const _getFormattedMessages = (messages) => {
 
 const init = async () => {
 	try {
-
-		const producerEvent = promisifyWithOwner(_producer);
-
 		logger.info('Waiting for kafka producer to be ready....');
 
 		const data = await new Promise(async (resolve, reject) => {
-			setTimeout(() => reject(new Error('Timeout waiting for kafka producer to be ready')), 30000);
-
 			setTimeout(async () => {
-				console.log('HERE SET UP CLIENT!')
-
-				client = new kafka.KafkaClient({ kafkaHost: `${KAFKA_HOST}:${KAFKA_PORT}` });
-
-				console.log('HERE SET UP PRODUCER!')
-				_producer = new kafka.Producer(client);
-
 				try {
-					console.log('HERE1!')
-					await producerEvent('on')('ready');
-					console.log('HERE2!')
+					setTimeout(() => reject(new Error('Timeout waiting for kafka producer to be ready')), KAFKA_CONNECT_TIMEOUT);
+
+					client = new kafka.KafkaClient({ kafkaHost: `${KAFKA_HOST}:${KAFKA_PORT}` });
+					_producer = new kafka.Producer(client);
+
+					const producerEvent = promisifyWithOwner(_producer);
+					await producerEvent('on', 'ready');
 					resolve();
 				} catch (err) {
-					console.log('HERE ERROR3!')
 					reject(err);
 				}
-			}, 20000);
+			}, KAFKA_WAIT_TIME);
 		});
 
 		logger.success(`Kafka producer ready: ${data}`);
@@ -64,7 +57,7 @@ const sendMessages = async (topic, messages) => {
 		: [payloadForTopic(_messages)];
 
 	try {
-		await producerEvent('send')(payload);
+		await producerEvent('send', payload);
 		logger.success('Wrote message to kafka');
 	} catch (err) {
 		logger.error(`problem sending payload to Kafka: ${JSON.stringify(payload)}`);

@@ -4,10 +4,9 @@ const url = require('url');
 /**
 * Create a promisified version of a function, while maintaining it's original owner
 */
-const promisifyWithOwner = R.curry((owner, funcName) => (...args) => {
+const promisifyWithOwner = R.curry((owner, funcName, ...args) => {
 	if (!owner) {
-		console.log('NO OWNER!!!');
-		throw new Error('No owner for promisify');
+		throw new TypeError('Owner falsy for promisifyWithOwner');
 	}
 
 	return new Promise((resolve, reject) => (

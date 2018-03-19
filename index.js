@@ -6,8 +6,6 @@ const twitchPolling = require('./apiWrappers/twitch/polling');
 const messaging = require('./messaging');
 
 try {
-	console.log("ENV: ", process.env) // eslint-disable-line
-
 	// Init kafka messaging then begin polling
 	messaging.init()
 		.then(twitchPolling.beginPollTwitch)
