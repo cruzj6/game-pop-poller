@@ -29,12 +29,14 @@ const init = async () => {
 		const data = await new Promise(async (resolve, reject) => {
 			setTimeout(() => reject(new Error('Timeout waiting for kafka producer to be ready')), 30000);
 
-			try {
-				await producerEvent('on')('ready');
-				resolve();
-			} catch (err) {
-				reject(err);
-			}
+			setTimeout(async () => {
+				try {
+					await producerEvent('on')('ready');
+					resolve();
+				} catch (err) {
+					reject(err);
+				}
+			}, 20000);
 		});
 
 		logger.success(`Kafka producer ready: ${data}`);
