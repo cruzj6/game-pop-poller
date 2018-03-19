@@ -10,13 +10,9 @@ const { POLLING_INTERVAL, TWITCH_LIMIT_MS, MAX_TOP_GAMES } = require('../../cons
 const pollTwitch = name => new Promise((resolve, reject) => (
 	setTimeout(async () => {
 		try {
-			console.log("GOT HERE3, HERE ARE ENV", process.env) // eslint-disable-line
-
 			const count = await twitch.getGameViewerNumbers(name);
-			console.log("GOT HERE4, HERE ARE ENV", process.env) // eslint-disable-line
 
 			twitchMessaging.readyMessage({ gamename: name, timestamp: Date.now(), viewers: count });
-			console.log("GOT HERE5, HERE ARE ENV", process.env) // eslint-disable-line
 
 			resolve();
 		} catch (err) {
@@ -46,7 +42,7 @@ const pollAllGames = async () => {
 };
 
 // Begin polling Twitch API on an interval
-const beginPollTwitch = () => {
+const beginPollTwitch = async () => {
 	pollAllGames();
 	setInterval(async () => {
 		try {

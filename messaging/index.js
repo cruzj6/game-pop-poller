@@ -7,13 +7,8 @@ const { promisifyWithOwner } = require('../common/utils');
 const { KAFKA_HOST, KAFKA_PORT } = process.env;
 
 // Setup kafka producer
-const client = new kafka.KafkaClient({ kafkaHost: `${KAFKA_HOST}:${KAFKA_PORT}` });
-const _producer = new kafka.Producer(client);
-
-// Work with promises on the producer object's owner
-const producerEvent = promisifyWithOwner(_producer);
-const producerOn = producerEvent('on');
-const producerSend = producerEvent('send');
+let client;
+let _producer;
 
 const _getPayload = R.curry((topic, message) => ({ topic, messages: message }));
 
@@ -25,14 +20,32 @@ const _getFormattedMessages = (messages) => {
 
 const init = async () => {
 	try {
-		const data = await producerOn('ready');
+		client = new kafka.KafkaClient({ kafkaHost: `${KAFKA_HOST}:${KAFKA_PORT}` });
+		_producer = new kafka.Producer(client);
+
+		logger.info('Waiting for kafka producer to be ready....');
+
+		const producerEvent = promisifyWithOwner(_producer);
+		const data = await new Promise(async (resolve, reject) => {
+			setTimeout(() => reject(new Error('Timeout waiting for kafka producer to be ready')), 30000);
+
+			try {
+				await producerEvent('on')('ready');
+				resolve();
+			} catch (err) {
+				reject(err);
+			}
+		});
+
 		logger.success(`Kafka producer ready: ${data}`);
 	} catch (err) {
-		logger.error(`problem setting up Kafka producer: ${err}`);
+		logger.error(`problem setting up Kafka client or producer: ${err}`);
+		throw err;
 	}
 };
 
 const sendMessages = async (topic, messages) => {
+	const producerEvent = promisifyWithOwner(_producer);
 	const _messages = _getFormattedMessages(messages);
 	const payloadForTopic = _getPayload(topic);
 	const payload = Array.isArray(_messages)
@@ -40,7 +53,7 @@ const sendMessages = async (topic, messages) => {
 		: [payloadForTopic(_messages)];
 
 	try {
-		await producerSend(payload);
+		await producerEvent('send')(payload);
 		logger.success('Wrote message to kafka');
 	} catch (err) {
 		logger.error(`problem sending payload to Kafka: ${JSON.stringify(payload)}`);
