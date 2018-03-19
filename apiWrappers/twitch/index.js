@@ -24,7 +24,6 @@ const getGameStreamData = async (gameId, paginationId) => (
 const getData = R.path(['data', 'data']);
 
 const getTopGames = async (count = 20, { data = [], nextPage } = {}) => {
-
 	const getFromTopGames = getTwitchData([TWITCH_DATA_TYPES.GAMES, 'top']);
 
 	if (count > 100) {

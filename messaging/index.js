@@ -32,9 +32,12 @@ const init = async () => {
 
 			setTimeout(async () => {
 				try {
+					console.log('HERE1!')
 					await producerEvent('on')('ready');
+					console.log('HERE2!')
 					resolve();
 				} catch (err) {
+					console.log('HERE ERROR3!')
 					reject(err);
 				}
 			}, 20000);
