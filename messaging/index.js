@@ -20,8 +20,6 @@ const _getFormattedMessages = (messages) => {
 
 const init = async () => {
 	try {
-		client = new kafka.KafkaClient({ kafkaHost: `${KAFKA_HOST}:${KAFKA_PORT}` });
-		_producer = new kafka.Producer(client);
 
 		const producerEvent = promisifyWithOwner(_producer);
 
@@ -31,6 +29,13 @@ const init = async () => {
 			setTimeout(() => reject(new Error('Timeout waiting for kafka producer to be ready')), 30000);
 
 			setTimeout(async () => {
+				console.log('HERE SET UP CLIENT!')
+
+				client = new kafka.KafkaClient({ kafkaHost: `${KAFKA_HOST}:${KAFKA_PORT}` });
+
+				console.log('HERE SET UP PRODUCER!')
+				_producer = new kafka.Producer(client);
+
 				try {
 					console.log('HERE1!')
 					await producerEvent('on')('ready');
