@@ -43,7 +43,7 @@ const pollAllGames = async () => {
 
 // Begin polling Twitch API on an interval
 const beginPollTwitch = async () => {
-	pollAllGames();
+	await pollAllGames();
 };
 
 module.exports = {

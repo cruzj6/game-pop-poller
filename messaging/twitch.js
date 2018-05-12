@@ -29,6 +29,7 @@ const readyMessage = (message) => {
 };
 
 const allMessagesDone = () => {
+	logger.info('All polling completed, posting remaining batch');
 	// Empty the remaning messages
 	if (currentBatch.length > 0) {
 		postAndClearBatch();
