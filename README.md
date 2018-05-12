@@ -1,4 +1,4 @@
-# game-pop
+# game-pop-poller
 This repository contains the poller for polling the various services reported on by game-pop. It posts the polling results to Kafka, to then be processed by other game-pop services. It is intended to be used as a scheduled AWS lambda function.
 
 ### Currently Supported services:
