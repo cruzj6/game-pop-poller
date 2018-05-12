@@ -2,7 +2,7 @@ const R = require('ramda');
 const logger = require('../../common/logger');
 const twitchMessaging = require('../../messaging/twitch');
 const twitch = require('./');
-const { POLLING_INTERVAL, TWITCH_LIMIT_MS, MAX_TOP_GAMES } = require('../../constants');
+const { TWITCH_LIMIT_MS, MAX_TOP_GAMES } = require('../../constants');
 
 // const gameNames = process.env.GAME_NAME || ['PLAYERUNKNOWN\'S BATTLEGROUNDS', 'Diablo III: Reaper of Souls', 'League of Legends'];
 
@@ -44,13 +44,6 @@ const pollAllGames = async () => {
 // Begin polling Twitch API on an interval
 const beginPollTwitch = async () => {
 	pollAllGames();
-	setInterval(async () => {
-		try {
-			await pollAllGames();
-		} catch (err) {
-			logger.error('Error on polling all games: ', err);
-		}
-	}, POLLING_INTERVAL);
 };
 
 module.exports = {
