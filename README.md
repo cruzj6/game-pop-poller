@@ -9,3 +9,15 @@ This repository contains the poller for polling the various services reported on
 - KAFKA_PORT
 - TWITCH_CLIENT_ID
 - TWITCH_CLIENT_SECRET 
+
+### Kafka data format
+Data is posted in the folling JSON format:
+
+'twitch' topic:
+```
+{
+  "gamename": <String-exact game name from twitch>,
+  "timestamp": <Number-MS since UNIX Epoch at time of polling>,
+  "viewers": <Number-Number of viewers at time of polling>
+}
+```
