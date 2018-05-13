@@ -11,7 +11,7 @@ This repository contains the poller for polling the various services reported on
 - TWITCH_CLIENT_SECRET 
 
 ### Kafka data format
-Data is posted in the folling JSON format:
+Data is posted in the following JSON format:
 
 'twitch' topic:
 ```
